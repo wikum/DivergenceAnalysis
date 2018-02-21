@@ -2,7 +2,7 @@
 sink("log/4_4.log.txt", split=TRUE)
 
 tryCatch({
-
+  
   set.seed(1)
   
   library(plyr)
@@ -11,8 +11,8 @@ tryCatch({
   
   source("../src/util.R")
   
-  source("vars.R") # load DATA_DIR
-
+  source("../vars.R") # load DATA_DIR
+  
   # ====================================================
   # BRESAT, RNA-SEQ
   # ====================================================
@@ -27,8 +27,13 @@ tryCatch({
   
   rm(dataMat, dataPheno)
   
-  dataMat = data.matrix(readTable(sprintf("%s/PROSTATE/METHYLATION_450k/TCGA_Adenocarcinoma/TCGA_Beta.csv.gz", DATA_DIR)))
-  dataPheno = readTable(sprintf("%s/PROSTATE/METHYLATION_450k/TCGA_Adenocarcinoma/TCGA_Pheno.csv.gz", DATA_DIR))
+  dataMat = data.matrix(readTable(sprintf("%s/BREAST/METHYLATION_450k/TCGA/TCGA_Beta.csv.gz", DATA_DIR)))
+  dataPheno = readTable(sprintf("%s/BREAST/METHYLATION_450k/TCGA/TCGA_Pheno.csv.gz", DATA_DIR))
+  
+  if(! all(is.finite(dataMat))){
+    cat("Removing rows with missing values..\n")
+    dataMat = dataMat[-which(apply(dataMat, 1, function(x) ! all(is.finite(x)))), ] #364130
+  }
   
   baseMat2 = dataMat[, which(dataPheno$sample_type %in% c("Solid Tissue Normal"))]
   Mat2 = dataMat[, which(dataPheno$sample_type %in% c("Primary Tumor"))]
@@ -40,71 +45,34 @@ tryCatch({
   Mat1 = Mat1[, common]
   Mat2 = Mat2[, common]  
   
-  
-  
-  
-  
-  
-  
-  cat("\nBREAST, RNA-SEQ\n")
-  
-  Mat = data.matrix(readTable("../../../../../PROBLEMS/BREAST/PROCESSED/A/MatData.csv.gz"))
-  refMat = data.matrix(readTable("../../../../../PROBLEMS/BREAST/PROCESSED/A/MatRef.csv.gz"))
-  Pheno = readTable("../../../../../DATA/BREAST/RNASeq/TCGA/TCGA_Pheno.csv.gz")
-  rownames(Pheno) = Pheno$sample
-  
-  Pheno = Pheno[colnames(Mat), ]
-  
-  sel = which(Pheno$sample_type %in% c("Primary Tumor"))
-  
-  Mat = Mat[, sel]
-  Pheno = Pheno[sel, ]
-  
-  MatP1 = getPercentileMat(Mat)
-  refMatP1 = getPercentileMat(refMat)
-  
-  rm(Mat)
-  rm(refMat)
-  
-  gc()
-  
-  cat("\nBREAST, Methylation\n")
-  
-  Mat2 = data.matrix(readTable("../../../../../PROBLEMS/BREAST/PROCESSED/B/MatData.csv"))
-  refMat2 = data.matrix(readTable("../../../../../PROBLEMS/BREAST/PROCESSED/B/MatRef.csv"))
-
-  sel = intersect(colnames(MatP1), colnames(Mat2))
-  
-  Mat2 = Mat2[, sel]
-  MatP1 = MatP1[, sel]
-  
-  Pheno = Pheno[sel, ]
-
   # ================ compute divergence ================ 
-  div1 = computeDivergences(Mat=MatP1, refMat=refMatP1, 
-                           upper="perc.high", lower="perc.low")
+  div1 = computeUnivariateDigitization(Mat=Mat1, baseMat=baseMat1,
+                                       computeQuantiles = TRUE)
   
-  div2 = computeDivergences(Mat=Mat2, refMat=refMat2, 
-                            upper="perc.high", lower="perc.low")
-  
-  save(div1, div2, file="4_4_data.rda")
+  div2 = computeUnivariateDigitization(Mat=Mat2, baseMat=baseMat2,
+                                       computeQuantiles = FALSE)
   
   df = data.frame(
-    N_RNASEQ=div1$N,
-    N_METHYL=div2$N,
+    N_RNASEQ=div1$div$count.div,
+    N_METHYL=div2$div$count.div,
     #normalized
-    N_RNASEQ_n=div1$N/nrow(refMatP1),
-    N_METHYL_n=div2$N/nrow(refMat2),
-    SAMPLE=colnames(MatP1)
+    N_RNASEQ_n=div1$div$count.div/nrow(Mat1),
+    N_METHYL_n=div2$div$count.div/nrow(Mat2),
+    SAMPLE=colnames(Mat1)
   )
   
-  cat("\nSpearman Correlation: %.3f\n", cor(df$N_RNASEQ, df$N_METHYL, method="spearman"))
-  cat("\nPearson Correlation: %.3f\n", cor(df$N_RNASEQ, df$N_METHYL, method="pearson"))
+  cat(sprintf("\nSpearman Correlation: %.3f\n", cor(df$N_RNASEQ, df$N_METHYL, method="spearman")))
+  cat(sprintf("\nPearson Correlation: %.3f\n", cor(df$N_RNASEQ, df$N_METHYL, method="pearson")))
   
-  # ====================================================
-  # ====================================================
+  # ====== save ======
+  save(df, file="obj/4_4.rda")
+  # ==================
   
-  save(df, file="4_4.rda")  
+  sessionInfo()
+  
+  rm(list=ls())
+  gc()  
+
   
 }, error = function(e){ print(e) })
 

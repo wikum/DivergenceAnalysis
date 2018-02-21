@@ -11,7 +11,7 @@ tryCatch({
   
   source("../src/util.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R") # load DATA_DIR
   
   # ====================================================
   # PROSTATE, RNA-SEQ

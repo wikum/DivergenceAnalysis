@@ -9,7 +9,7 @@ tryCatch({
   source("../src/util.R")
 
   source("util_1.R")
-  source("vars.R")
+  source("../vars.R")
   
   # ====================================================
   # TCGA RNA-Seq  
@@ -69,7 +69,6 @@ tryCatch({
     
   save(idList, resultList, file="obj/TCGA_RNASEQ_results.rda")
     
-  
   dfList = lapply(1:length(resultList), function(j)
     data.frame(
       N=resultList[[j]]$div[, "count.div"], 

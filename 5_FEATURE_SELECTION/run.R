@@ -1,5 +1,4 @@
 
-set.seed(1)
 
 if(! dir.exists("obj"))
   dir.create("obj")
@@ -8,28 +7,28 @@ if(! dir.exists("log"))
   dir.create("log")
 
 tryCatch({
-  #cat("\n 1 \n ===================== \n")
-  #source("5_1.R")
+  cat("\n 1 \n ===================== \n")
+  source("5_1.R")
 }, error = function(e){print(e)})
 
 tryCatch({
-  #cat("\n 2 \n ===================== \n")
-  #source("5_2.R")
+  cat("\n 2 \n ===================== \n")
+  source("5_2.R")
 }, error = function(e){print(e)})
 
 tryCatch({
-  #cat("\n 3 \n ===================== \n")
-  #source("5_3.R")
+  cat("\n 3 \n ===================== \n")
+  source("5_3.R")
 }, error = function(e){print(e)})
 
 tryCatch({
-  #cat("\n 4 \n ===================== \n")
-  #source("5_4.R")
+  cat("\n 4 \n ===================== \n")
+  source("5_4.R")
 }, error = function(e){print(e)})
 
 tryCatch({
-  #cat("\n 5 \n ===================== \n")
-  #source("5_5.R")
+  cat("\n 5 \n ===================== \n")
+  source("5_5.R")
 }, error = function(e){print(e)})
 
 tryCatch({

@@ -5,21 +5,23 @@ tryCatch({
 
   set.seed(1)
   
-  library(knitr)
-  library(ggplot2)
-  library(gridExtra)
-  library(grid)
-  library(cowplot)
-  library(RColorBrewer)
-  library(ggrepel)
   library(plyr)
-  
   library(divergence)
+  library(rutils)
+  library(tidyr)
   
   source("../src/util.R")
-  source("../src/plotutil.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R")
+  
+  lapply_c = function(x, ...){
+    
+    result = lapply(x, ...)
+    names(result) = x
+    
+    result
+    
+  }
   
   # ====================================================
   # GTEX
@@ -68,7 +70,7 @@ tryCatch({
   
   tissueGroups = Groups[-sel_train]
   
-  n_map = make_n_factor_map(tissueGroups)
+  n_map = utils.make_n_factor_map(tissueGroups)
   rownames(n_map) = n_map$levels
   n_map = n_map
   
@@ -87,7 +89,8 @@ tryCatch({
     
     # ================ compute divergence ================ 
 
-    div = computeUnivariateDigitization(Mat=MatP[, -sel_train], baseMat=MatP[, trainIds[[t]] ])
+    div = computeUnivariateDigitization(Mat=MatP[, -sel_train], baseMat=MatP[, trainIds[[t]] ],
+                                        gamma = 1:9/10)
     
     divMat = cbind(divMat, div$div$count.div)
     
@@ -110,7 +113,7 @@ tryCatch({
 
   save(divMat, accMat,  file="2_3/results.rda")
   
-  meltedAccMat = meltMat(accMat)
+  meltedAccMat = util.meltMat(accMat)
   
   # ====== save ======
   save(meltedAccMat, file="obj/2_3.rda")

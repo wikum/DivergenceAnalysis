@@ -10,7 +10,7 @@ tryCatch({
   
   source("../src/util.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R") # load DATA_DIR
 
   # ====================================================
   # BREAST, RNA-SEQ, Luminal A vs Luminal B
@@ -34,7 +34,7 @@ tryCatch({
                   labels=c("LuminalA", "LuminalB"))
   
   # ================ compute divergence ================ 
-  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat,
+  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, gamma=1:9/10,
                                       Groups=Groups, classes=c("LuminalA", "LuminalB"))
   
   save(div, Groups, file="obj/5_1_data.rda")

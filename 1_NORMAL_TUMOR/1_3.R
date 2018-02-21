@@ -12,11 +12,13 @@ tryCatch({
   source("../src/util.R")
 
   source("util_1.R")
-  source("vars.R")
+  source("../vars.R")
   
   # ====================================================
   # GPL570
   # ====================================================
+  
+  cat("Loading gpl570 data..\n")
   
   Mat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL570/TUMOR_AGGREGATED/TUMOR_Expression.csv.gz", DATA_DIR)))
   baseMat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL570/NORMAL_AGGREGATED/NORMAL_Expression.csv.gz", DATA_DIR)))
@@ -39,26 +41,15 @@ tryCatch({
   
   div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
-  df_GPL570 = data.frame(div$div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("Genes", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_GPL570$count.div ~ df_GPL570$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_GPL570$count.div.upper ~ df_GPL570$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_GPL570$count.div.lower ~ df_GPL570$Groups)$p.value)
-  )
-  colnames(df) = c("Description", "Value")
-  cat("\n== GPL570 ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_GPL570 = data.frame(N=div$div$count.div, Groups=Groups)
   
   rm(Mat, baseMat, div, Pheno, Groups)
   
   # ====================================================
   # GPL96
   # ====================================================
+  
+  cat("Loading gpl96 data..\n")
   
   Mat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL96/TUMOR_AGGREGATED/TUMOR_Expression.csv.gz", DATA_DIR)))
   baseMat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL96/NORMAL_AGGREGATED/NORMAL_Expression.csv.gz", DATA_DIR)))
@@ -82,27 +73,15 @@ tryCatch({
   
   div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
-  df_GPL96 = data.frame(div$div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("Genes", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_GPL96$count.div ~ df_GPL96$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_GPL96$count.div.upper ~ df_GPL96$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_GPL96$count.div.lower ~ df_GPL96$Groups)$p.value)
-  )
-  
-  colnames(df) = c("Description", "Value")
-  cat("\n== GPL96 ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_GPL96 = data.frame(N=div$div$count.div, Groups=Groups)
   
   rm(Mat, baseMat, div, Pheno, Groups)
   
   # ====================================================
   # GPL1708
   # ====================================================
+  
+  cat("Loading gpl1708 data..\n")
   
   Mat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL1708/TUMOR_AGGREGATED/TUMOR_Expression.csv.gz", DATA_DIR)))
   baseMat = data.matrix(readTable(sprintf("%s/BREAST/MICROARRAY_GPL1708/NORMAL_AGGREGATED/NORMAL_Expression.csv.gz", DATA_DIR)))
@@ -130,21 +109,7 @@ tryCatch({
   
   div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
-  df_GPL1708 = data.frame(div$div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("Genes", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_GPL1708$count.div ~ df_GPL1708$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_GPL1708$count.div.upper ~ df_GPL1708$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_GPL1708$count.div.lower ~ df_GPL1708$Groups)$p.value)
-  )  
-  
-  colnames(df) = c("Description", "Value")
-  cat("\n== GPL1708 ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_GPL1708 = data.frame(N=div$div$count.div, Groups=Groups)
   
   rm(Mat, baseMat, div, Pheno, Groups)
   
@@ -161,6 +126,19 @@ tryCatch({
   
   # ====== save ======
   df1_3 = make_facet_df(dfList, prefix="Breast")
+  
+  df1_3$TissuePrefixed = factor(df1_3$TissuePrefixed,
+                                levels=c( "Breast\nGPL570", "Breast\nGPL96", "Breast\nGPL1078"),
+                                labels=c( "Breast\nGPL570", "Breast\nGPL96", "Breast\nGPL1708"))
+  
+  df1_3$Tissue = factor(df1_3$Tissue,
+                        levels=c("GPL570", "GPL96", "GPL1078"),
+                        labels=c("GPL570", "GPL96", "GPL1708"))
+  
+  df1_3$TissueSuffixed = factor(df1_3$TissueSuffixed,
+                                levels=c("GPL570\n", "GPL96\n", "GPL1078\n"),
+                                labels=c("GPL570\n", "GPL96\n", "GPL1708\n"))
+  
   save(df1_3, file="obj/1_3.rda")
   # ==================
   

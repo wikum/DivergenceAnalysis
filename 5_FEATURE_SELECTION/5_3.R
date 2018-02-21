@@ -10,7 +10,7 @@ tryCatch({
   
   source("../src/util.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R") # load DATA_DIR
 
   # ====================================================
   # GTEx
@@ -20,7 +20,7 @@ tryCatch({
   #Mat = data.matrix(readTable(sprintf("%s/MULTI-TISSUE/RNASeq/GTEX/GTEX_Counts_normalized.csv", DATA_DIR)))
   load("GTEX_MatP.rda")
   
-  Pheno = readTable("../../../../../DATA/MULTI-TISSUE/RNASeq/GTEX/GTEX_Pheno.csv")
+  Pheno = readTable(sprintf("%s/MULTI-TISSUE/RNASeq/GTEX/GTEX_Pheno.csv", DATA_DIR))
   rownames(Pheno) = Pheno$sample
   
   tissues = unique(as.character(Pheno$tissue_type))
@@ -53,7 +53,7 @@ tryCatch({
 
   # ================ compute divergence ================ 
   div = computeUnivariateDigitization(Mat=MatP[, -train_ids], baseMat=MatP[, train_ids],
-                                      computeQuantiles = FALSE,  
+                                      computeQuantiles = FALSE,  gamma=1:9/10,
                                       Groups=Groups)
   
   cat("Computing Chi-squared tests\n")

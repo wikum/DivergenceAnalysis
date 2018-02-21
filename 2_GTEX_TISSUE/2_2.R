@@ -5,21 +5,13 @@ tryCatch({
 
   set.seed(1)
   
-  library(knitr)
-  library(ggplot2)
-  library(gridExtra)
-  library(grid)
-  library(cowplot)
-  library(RColorBrewer)
-  library(ggrepel)
   library(plyr)
-  
   library(divergence)
+  library(rutils)
   
   source("../src/util.R")
-  source("../src/plotutil.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R")
   
   # ====================================================
   # GTEX
@@ -47,7 +39,8 @@ tryCatch({
     
     # ================ compute divergence ================ 
     cat("Computing divergence..\n")
-    div = computeUnivariateDigitization(Mat=Mat[, -sel_train], baseMat=Mat[, sel_train])
+    div = computeUnivariateDigitization(Mat=Mat[, -sel_train], baseMat=Mat[, sel_train],
+                                        gamma = 1:9/10)
     
     t_dir = sprintf("2_2/%s", train_type)
     
@@ -58,8 +51,8 @@ tryCatch({
     
     df = data.frame(N=div$div$count.div,
                     Groups=tissueGroups,
-                    GroupsN=make_n_factor(tissueGroups),
-                    GroupsSuffixed=paste(tissueGroups, " (", make_n_factor(tissueGroups), ")", sep=""),
+                    GroupsN=utils.make_n_factor(tissueGroups),
+                    GroupsSuffixed=paste(tissueGroups, " (", utils.make_n_factor(tissueGroups), ")", sep=""),
                     trainGroup=factor(tissueGroups == train_type))
     
     # ====== save ======

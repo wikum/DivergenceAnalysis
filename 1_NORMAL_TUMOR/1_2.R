@@ -10,7 +10,7 @@ tryCatch({
   source("../src/util.R")
   
   source("util_1.R")
-  source("vars.R")
+  source("../vars.R")
   
   # ====================================================
   # TCGA Methylation 450k - LUAD
@@ -48,20 +48,7 @@ tryCatch({
   
   save(div, Groups, file="obj/TCGA_Methyl_LUAD_div.rda")
   
-  df_LUAD = list(div=div$div, features=div$features.div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("CPGs", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_LUAD$div$count.div ~ df_LUAD$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_LUAD$div$count.div.upper ~ df_LUAD$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_LUAD$div$count.div.lower ~ df_LUAD$Groups)$p.value)
-  )
-  colnames(df) = c("Description", "Value")
-  cat("\n== LUAD ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_LUAD = list(N=div$div$count.div, Groups=Groups)
   
   rm(Pheno, div)
   
@@ -106,21 +93,7 @@ tryCatch({
   
   save(div, Groups, file="obj/TCGA_Methyl_HNSC_div.rda")
   
-  df_HNSC = list(div=div$div, features=div$features.div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("CPGs", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_HNSC$div$count.div ~ df_HNSC$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_HNSC$div$count.div.upper ~ df_HNSC$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_HNSC$div$count.div.lower ~ df_HNSC$Groups)$p.value)
-  )
-  
-  colnames(df) = c("Description", "Value")
-  cat("\n== HNSC ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_HNSC = list(N=div$div$count.div, Groups=Groups)
   
   rm(Pheno, div)
   
@@ -165,20 +138,7 @@ tryCatch({
   
   save(div, Groups, file="obj/TCGA_Methyl_PRAD_div.rda")
   
-  df_PRAD = list(div=div$div, features=div$features.div, Groups=Groups)
-  
-  df = rbind(
-    c("NORMAL samples", sum(Groups=="NORMAL")),
-    c("TUMOR samples", sum(Groups=="TUMOR")),
-    c("CPGs", nrow(div$Mat.div)),
-    c("Divergence Wilcoxon P-value", wilcox.test(df_PRAD$div$count.div ~ df_PRAD$Groups)$p.value),
-    c("Upper Divergence Wilcoxon P-value", wilcox.test(df_PRAD$div$count.div.upper ~ df_PRAD$Groups)$p.value),
-    c("Lower Divergence Wilcoxon P-value", wilcox.test(df_PRAD$div$count.div.lower ~ df_PRAD$Groups)$p.value)
-  )
-  colnames(df) = c("Description", "Value")
-  cat("\n== PRAD ==\n")
-  print(kable(df, caption="NORMAL vs TUMOR Wilcoxon p-value", digits = 20))
-  cat("\n")
+  df_PRAD = list(N=div$div$count.div, Groups=Groups)
   
   rm(Pheno, div)
   
@@ -193,6 +153,7 @@ tryCatch({
   
   # ====== save ======
   df1_2 = make_facet_df(dfList, suffix="Methylation 450k")
+  
   save(df1_2, file="obj/1_2.rda")
   # ==================
 

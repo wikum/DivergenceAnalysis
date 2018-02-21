@@ -12,7 +12,7 @@ tryCatch({
   source("../src/util.R")
   source("util_4.R")
   
-  source("vars.R") # load DATA_DIR
+  source("../vars.R") # load DATA_DIR
 
   dfList = list()
   dfMeanList = list()
@@ -121,6 +121,11 @@ tryCatch({
   rownames(Pheno) = Pheno$sample
   Pheno = Pheno[colnames(Mat), ]
   
+  common = intersect(rownames(baseMat), rownames(Mat))
+  
+  Mat = Mat[common, ] #11764
+  baseMat = baseMat[common, ]
+  
   sel = which(Pheno$HIST_GRADE %in% 1:3)
   
   Mat = Mat[, sel]
@@ -133,7 +138,7 @@ tryCatch({
   div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat,
                                       gamma = 1:9/10)    
   
-  dfList[["HIST"]] = data.frame(N=div$N,
+  dfList[["HIST"]] = data.frame(N=div$div$count.div,
                                    Groups=Groups,
                                    GroupsN=utils.make_n_factor(Groups))
   

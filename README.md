@@ -4,7 +4,7 @@ Required packages: ggplot2, tidyr, devtools
 
 Instructions:
 
-1. Download the data from http://luigimarchionni.org/divergence.html
+1. Download the data from http://luigimarchionni.org/divergence.html. Install the required packages.
 
 2. Run install.R script to install the following packages from github repositorites: wikum/rutils, wikum/divergence
 

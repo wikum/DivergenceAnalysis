@@ -1,14 +1,5 @@
 
 
-if(FALSE){
-  library(devtools)
-  current_path = getwd()
-  setwd("../../../devel_divergence/divergenceDevel")
-  install("divergence")
-  reload("divergence")
-  setwd(current_path)
-}
-
 if(! dir.exists("obj"))
   dir.create("obj")
 

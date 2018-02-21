@@ -3,33 +3,48 @@ sink("log/4_4.log.txt", split=TRUE)
 
 tryCatch({
 
-  
   set.seed(1)
   
-  library(knitr)
-  library(ggplot2)
-  library(gridExtra)
-  library(grid)
-  library(cowplot)
-  library(RColorBrewer)
-  library(ggrepel)
   library(plyr)
+  library(rutils)
+  library(divergence)
   
-  currentPath = getwd()
+  source("../src/util.R")
   
-  setwd("../../../../../PROBLEMS/code/")
-  
-  source("util.R")
-  source("plotutil.R")
-  source("divergence.R")
-  
-  setwd(currentPath)
-  
-  source("../../../code/temp_util.R")
+  source("vars.R") # load DATA_DIR
 
   # ====================================================
   # BRESAT, RNA-SEQ
   # ====================================================
+  
+  cat("Loading data..\n")
+  
+  dataMat = data.matrix(readTable(sprintf("%s/BREAST/RNASeq/TCGA/TCGA_TPM.csv.gz", DATA_DIR)))
+  dataPheno = readTable(sprintf("%s/BREAST/RNASeq/TCGA/TCGA_Pheno.csv.gz", DATA_DIR))
+  
+  baseMat1 = dataMat[, which(dataPheno$sample_type %in% c("Solid Tissue Normal"))]
+  Mat1 = dataMat[, which(dataPheno$sample_type %in% c("Primary Tumor"))]
+  
+  rm(dataMat, dataPheno)
+  
+  dataMat = data.matrix(readTable(sprintf("%s/PROSTATE/METHYLATION_450k/TCGA_Adenocarcinoma/TCGA_Beta.csv.gz", DATA_DIR)))
+  dataPheno = readTable(sprintf("%s/PROSTATE/METHYLATION_450k/TCGA_Adenocarcinoma/TCGA_Pheno.csv.gz", DATA_DIR))
+  
+  baseMat2 = dataMat[, which(dataPheno$sample_type %in% c("Solid Tissue Normal"))]
+  Mat2 = dataMat[, which(dataPheno$sample_type %in% c("Primary Tumor"))]
+  
+  rm(dataMat, dataPheno)
+  
+  common = intersect(colnames(Mat1), colnames(Mat2))  
+  
+  Mat1 = Mat1[, common]
+  Mat2 = Mat2[, common]  
+  
+  
+  
+  
+  
+  
   
   cat("\nBREAST, RNA-SEQ\n")
   

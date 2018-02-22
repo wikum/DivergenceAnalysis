@@ -3,12 +3,6 @@ sink("log/4_3.log.txt", split=TRUE)
 
 tryCatch({
 
-  set.seed(1)
-  
-  library(plyr)
-  library(rutils)
-  library(divergence)
-  
   source("../src/util.R")
   source("util_4.R")
   
@@ -44,12 +38,9 @@ tryCatch({
   
   df = data.frame(N=div$div$count.div,
                   Groups=Groups, 
-                  GroupsN=utils.make_n_factor(Groups))
+                  GroupsN=make_n_factor(Groups))
   
   dfMean = get_mean_df(df)
-  
-  cat("Wilcoxon P:\n")
-  print(compute_p_mat(df, "Groups", "N"))
   
   # ====== save ======
   save(df, dfMean, file="obj/4_3.rda")

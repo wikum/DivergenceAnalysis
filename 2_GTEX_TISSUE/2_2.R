@@ -3,12 +3,6 @@ sink("log/2_2.log.txt", split=TRUE)
 
 tryCatch({
 
-  set.seed(1)
-  
-  library(plyr)
-  library(divergence)
-  library(rutils)
-  
   source("../src/util.R")
   
   source("../vars.R")
@@ -51,8 +45,8 @@ tryCatch({
     
     df = data.frame(N=div$div$count.div,
                     Groups=tissueGroups,
-                    GroupsN=utils.make_n_factor(tissueGroups),
-                    GroupsSuffixed=paste(tissueGroups, " (", utils.make_n_factor(tissueGroups), ")", sep=""),
+                    GroupsN=make_n_factor(tissueGroups),
+                    GroupsSuffixed=paste(tissueGroups, " (", make_n_factor(tissueGroups), ")", sep=""),
                     trainGroup=factor(tissueGroups == train_type))
     
     # ====== save ======

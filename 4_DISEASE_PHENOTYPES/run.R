@@ -7,8 +7,8 @@ if(! dir.exists("log"))
   dir.create("log")
 
 tryCatch({
-  cat("\n 1 \n ===================== \n")
-  source("4_1.R")
+  #cat("\n 1 \n ===================== \n")
+  #source("4_1.R")
 }, error = function(e){print(e)})
 
 tryCatch({
@@ -22,7 +22,7 @@ tryCatch({
 }, error = function(e){print(e)})
 
 tryCatch({
-  cat("\n 4 \n ===================== \n")
-  source("4_4.R")
+  #cat("\n 4 \n ===================== \n")
+  #source("4_4.R")
 }, error = function(e){print(e)})
 

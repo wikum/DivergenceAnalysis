@@ -3,9 +3,6 @@ sink("log/1_1.log.txt", split=TRUE)
 
 tryCatch({
 
-  library(plyr)
-  library(divergence)
-  
   source("../src/util.R")
 
   source("util_1.R")
@@ -58,6 +55,7 @@ tryCatch({
       div = computeUnivariateDigitization(Mat = MatQ[, sel_test], 
                                           baseMat = MatQ[, sel_train], 
                                           computeQuantiles = FALSE,
+                                          gamma = 1:9/10,
                                           Groups = Groups,
                                           classes = c("NORMAL", "TUMOR")
       )

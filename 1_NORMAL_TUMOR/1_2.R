@@ -3,10 +3,8 @@ sink("log/1_2.log.txt", split=TRUE)
 
 tryCatch({
 
-  library(plyr)
   library(knitr)
-  library(divergence)
-  
+
   source("../src/util.R")
   
   source("util_1.R")
@@ -43,7 +41,7 @@ tryCatch({
   # ================ compute divergence ================ 
 
   div = computeUnivariateDigitization(Mat = Mat, baseMat = baseMat,
-                                      computeQuantiles = FALSE, 
+                                      computeQuantiles = FALSE, gamma = 1:9/10,
                                       Groups = Groups, classes = c("NORMAL", "TUMOR"))
   
   save(div, Groups, file="obj/TCGA_Methyl_LUAD_div.rda")
@@ -87,7 +85,7 @@ tryCatch({
   # ================ compute divergence ================ 
 
   div = computeUnivariateDigitization(Mat = Mat, baseMat = baseMat,
-                                      computeQuantiles = FALSE, 
+                                      computeQuantiles = FALSE, gamma = 1:9/10,
                                       Groups = Groups, classes = c("NORMAL", "TUMOR"))
   
   
@@ -132,7 +130,7 @@ tryCatch({
   # ================ compute divergence ================ 
 
   div = computeUnivariateDigitization(Mat = Mat, baseMat = baseMat,
-                                      computeQuantiles = FALSE, 
+                                      computeQuantiles = FALSE, gamma = 1:9/10,
                                       Groups = Groups, classes = c("NORMAL", "TUMOR"))
   
   

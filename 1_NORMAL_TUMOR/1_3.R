@@ -3,12 +3,8 @@ sink("log/1_3.log.txt", split=TRUE)
 
 tryCatch({
   
-  set.seed(1)
-  
-  library(plyr)
   library(knitr)
-  library(divergence)
-  
+
   source("../src/util.R")
 
   source("util_1.R")
@@ -39,7 +35,9 @@ tryCatch({
   
   # ================ compute divergence ================ 
   
-  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
+  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, 
+                                      gamma = 1:9/10,
+                                      Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
   df_GPL570 = data.frame(N=div$div$count.div, Groups=Groups)
   
@@ -71,7 +69,9 @@ tryCatch({
 
   # ================ compute divergence ================ 
   
-  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
+  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, 
+                                      gamma = 1:9/10,
+                                      Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
   df_GPL96 = data.frame(N=div$div$count.div, Groups=Groups)
   
@@ -107,7 +107,9 @@ tryCatch({
   
   # ================ compute divergence ================ 
   
-  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, Groups=Groups, classes=c("NORMAL", "TUMOR"))
+  div = computeUnivariateDigitization(Mat=Mat, baseMat=baseMat, 
+                                      gamma = 1:9/10,
+                                      Groups=Groups, classes=c("NORMAL", "TUMOR"))
   
   df_GPL1708 = data.frame(N=div$div$count.div, Groups=Groups)
   

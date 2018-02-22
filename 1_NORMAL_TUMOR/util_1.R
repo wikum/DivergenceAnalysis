@@ -1,5 +1,5 @@
 
-require(rutils)
+source("../src/util.R")
 
 make_facet_df = function(dfList, suffix="", prefix=""){
   
@@ -7,7 +7,7 @@ make_facet_df = function(dfList, suffix="", prefix=""){
     
     df = data.frame(N=dfList[[i]]$N, 
                     Groups=dfList[[i]]$Groups,
-                    GroupsN=utils.make_n_factor(dfList[[i]]$Groups),
+                    GroupsN=make_n_factor(dfList[[i]]$Groups),
                     Tissue=factor(rep(names(dfList)[i], length(dfList[[i]]$Groups))))
 
     df$TissueSuffixed =  factor(paste(df$Tissue, suffix, sep="\n"))

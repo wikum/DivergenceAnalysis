@@ -3,13 +3,6 @@ sink("log/2_3.log.txt", split=TRUE)
 
 tryCatch({
 
-  set.seed(1)
-  
-  library(plyr)
-  library(divergence)
-  library(rutils)
-  library(tidyr)
-  
   source("../src/util.R")
   
   source("../vars.R")
@@ -70,7 +63,7 @@ tryCatch({
   
   tissueGroups = Groups[-sel_train]
   
-  n_map = utils.make_n_factor_map(tissueGroups)
+  n_map = make_n_factor_map(tissueGroups)
   rownames(n_map) = n_map$levels
   n_map = n_map
   
@@ -113,7 +106,7 @@ tryCatch({
 
   save(divMat, accMat,  file="2_3/results.rda")
   
-  meltedAccMat = util.meltMat(accMat)
+  meltedAccMat = meltMat(accMat)
   
   # ====== save ======
   save(meltedAccMat, file="obj/2_3.rda")

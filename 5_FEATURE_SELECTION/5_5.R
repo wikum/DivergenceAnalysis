@@ -3,11 +3,6 @@ sink("log/5_5.log.txt", split=TRUE)
  
 tryCatch({
 
-  set.seed(1)
-  
-  library(plyr)
-  library(divergence)
-  
   source("../src/util.R")
 
   source("../vars.R") # load DATA_DIR

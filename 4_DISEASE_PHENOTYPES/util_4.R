@@ -1,4 +1,6 @@
 
+source("../src/util.R")
+
 compute_p_mat = function(df, key, value, levels=NULL){
   
   key = df[, key]

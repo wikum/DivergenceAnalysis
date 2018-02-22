@@ -3,12 +3,6 @@ sink("log/2_1.log.txt", split=TRUE)
 
 tryCatch({
 
-  set.seed(1)
-  
-  library(plyr)
-  library(divergence)
-  library(rutils)
-  
   source("../src/util.R")
   
   source("../vars.R")
@@ -82,7 +76,7 @@ tryCatch({
     
     dfList[[t]] = data.frame(N=div$div$count.div,
                              Groups=tissueGroups,
-                             GroupsN=utils.make_n_factor(tissueGroups),
+                             GroupsN=make_n_factor(tissueGroups),
                              trainGroup=factor(tissueGroups == t))
     
   }

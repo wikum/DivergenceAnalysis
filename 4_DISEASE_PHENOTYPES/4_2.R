@@ -3,15 +3,9 @@ sink("log/4_2.log.txt", split=TRUE)
 
 tryCatch({
   
-  set.seed(1)
-  
-  library(plyr)
-  library(rutils)
-  library(divergence)
-  
   source("../src/util.R")
   source("util_4.R")
-  
+
   source("../vars.R") # load DATA_DIR
 
   dfList = list()
@@ -42,14 +36,11 @@ tryCatch({
   
   dfList[["GLEASON"]] = data.frame(N=div$div$count.div,
                                    Groups=Groups,
-                                   GroupsN=utils.make_n_factor(Groups))
+                                   GroupsN=make_n_factor(Groups))
   
   
   dfMeanList[["GLEASON"]] = get_mean_df(dfList$GLEASON)
   
-  cat("Wilcoxon P:\n")
-  print(compute_p_mat(dfList$GLEASON, "Groups", "N"))
-
   rm(Mat, baseMat, div, Groups)
   gc()
   
@@ -98,12 +89,9 @@ tryCatch({
   
   dfList[["SMOKING"]] = data.frame(N=div$div$count.div,
                                    Groups=Groups,
-                                   GroupsN=utils.make_n_factor(Groups))
+                                   GroupsN=make_n_factor(Groups))
   
   dfMeanList[["SMOKING"]] = get_mean_df(dfList$SMOKING)
-  
-  cat("Wilcoxon P:\n")
-  print(compute_p_mat(dfList$SMOKING, "Groups", "N"))
   
   rm(Mat, baseMat, div, Groups)
   gc()
@@ -140,13 +128,10 @@ tryCatch({
   
   dfList[["HIST"]] = data.frame(N=div$div$count.div,
                                    Groups=Groups,
-                                   GroupsN=utils.make_n_factor(Groups))
+                                   GroupsN=make_n_factor(Groups))
   
   
   dfMeanList[["HIST"]] = get_mean_df(dfList$HIST)
-  
-  cat("Wilcoxon P:\n")
-  print(compute_p_mat(dfList$HIST, "Groups", "N"))
   
   rm(Mat, baseMat, div, Groups)
   gc()

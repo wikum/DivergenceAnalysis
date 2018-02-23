@@ -1,9 +1,5 @@
 
 
-tryCatch({
-  
-}, error = function(e){ print(e) })
-
 # make figures
 
 library(knitr)

@@ -29,4 +29,14 @@ cat("--------------------------------------\n")
   source("run.R")
   setwd("../")
 
+cat("Running hallmark geneset experiments..\n")
+cat("--------------------------------------\n")
+  setwd("6_HALLMARKS/")
+  source("run.R")
+  setwd("../")
+  
+cat("Making figures..\n")  
+cat("----------------\n")
+  source("figures.R")
+
 sink()

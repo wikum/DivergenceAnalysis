@@ -10,9 +10,8 @@ Instructions:
 
 3. Set the DATA_DIR variable in vars.R to the DATA folder containing the data downloaded in step 1
 
-4. Run run_all.R to run experiments 
+4. Run run_all.R to run experiments and create figures
 
-5. Run figures.R script to create figures
 
 
 

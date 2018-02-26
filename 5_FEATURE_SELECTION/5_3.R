@@ -12,8 +12,7 @@ tryCatch({
   # ====================================================
   
   cat("Loading data..\n")
-  #Mat = data.matrix(readTable(sprintf("%s/MULTI-TISSUE/RNASeq/GTEX/GTEX_Counts_normalized.csv", DATA_DIR)))
-  load("GTEX_MatP.rda")
+  Mat = data.matrix(readTable(sprintf("%s/MULTI-TISSUE/RNASeq/GTEX/GTEX_Counts_normalized.csv", DATA_DIR)))
   
   Pheno = readTable(sprintf("%s/MULTI-TISSUE/RNASeq/GTEX/GTEX_Pheno.csv", DATA_DIR))
   rownames(Pheno) = Pheno$sample

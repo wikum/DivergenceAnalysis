@@ -11,6 +11,10 @@ tryCatch({
   source("6_1.R")
 }, error = function(e){print(e)})
 
+tryCatch({
+  cat("\n 2 \n ===================== \n")
+  source("6_2.R")
+}, error = function(e){print(e)})
 
 
 

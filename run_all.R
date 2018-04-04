@@ -1,4 +1,7 @@
 
+if(! dir.exists("log"))
+  dir.create("log")
+
 sink("log/run_all.log.txt", split=TRUE)
 
 # install necessary packages

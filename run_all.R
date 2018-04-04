@@ -17,6 +17,12 @@ cat("--------------------------------------\n")
   source("run.R")
   setwd("../")
 
+cat("Running clustering experiments..\n")
+cat("--------------------------------------\n")
+  setwd("3_CLUSTERING/")
+  source("run.R")
+  setwd("../")
+  
 cat("Running disease phenotype comparison experiments..\n")
 cat("--------------------------------------\n")
   setwd("4_DISEASE_PHENOTYPES/")

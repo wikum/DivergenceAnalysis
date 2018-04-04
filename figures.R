@@ -1,5 +1,4 @@
 
-
 # make figures
 
 library(knitr)
@@ -9,6 +8,7 @@ library(grid)
 library(cowplot)
 library(RColorBrewer)
 library(ggrepel)
+library(superheat)
 
 source("src/util.R")
 source("src/plotutil.R")
@@ -126,6 +126,67 @@ tryCatch({
   
 }, error = function(e){ print(e) })
 
+
+
+# =========================================================
+#  Figure 4 - heatmap code
+#  Luigi Marchionni
+# =========================================================
+
+tryCatch({
+  
+  loaded = load("6_HALLMARKS/obj/6_2.rda")
+  
+  mat <- t(cbind(P_reorder[, 1:4],  NA,  P_reorder[, 5:6]))
+  mat <- mat[, ncol(mat):1]
+  
+  ### Edit names
+  rownames(mat) <- gsub("minal", "minal ", rownames(mat))
+  rownames(mat) <- gsub("^Pos", "ER Pos", rownames(mat))
+  rownames(mat) <- gsub("^Neg", "ER Neg", rownames(mat))
+  rownames(mat) <- gsub("HER2-E", "HER2-enriched", rownames(mat))
+  rownames(mat) <- gsub("Basal", "Basal-like", rownames(mat))
+  colnames(mat) <- paste(gsub("_",  " ",  colnames(mat)),  "")
+  
+  myCol <- brewer.pal(8,"Set2")
+  myCol <- c(myCol[3:6],  "grey95", myCol[1:2])
+  
+  mat2 <- t(mat)
+  rownames(mat2) <- gsub(" $",  "",  rownames(mat2))
+  colnames(mat2) <- paste(colnames(mat2),  "")
+  
+  pdf("figures/figure4.pdf", width=17.5, height=31)
+  superheat(mat2,
+            ## Scaling and NA coloring
+            scale=FALSE, heat.na.col = "grey95",
+            ## plot title
+            # title = "Divergence probabilities for Hallmark FGS",  title.size = 14, 
+            ## color palette
+            heat.pal = c("white", "darkred"),  #heat.col.scheme = "red", 
+            ## Text labels angle
+            bottom.label.text.angle = 90, bottom.label.text.alignment = "right",
+            ### Text lable size
+            left.label.size = 1.5, left.label.text.size = 7,
+            bottom.label.size = 0.2, bottom.label.text.size = 9,
+            bottom.label.col =  myCol, 
+            ## Grid presentce and color
+            grid.hline = FALSE, grid.vline = FALSE, 
+            ## grid.hline.col = "grey95", grid.vline.col = "grey95", 
+            ## row title
+            row.title = "Hallmark FGS",  row.title.size = 14,
+            ## col title
+            column.title = "Breast Cancer \n Phenotypes",  column.title.size = 14,
+            ## control the legend 
+            legend.height = 0.16,   legend.width = 2.5,  legend.text.size = 14
+            #legend.breaks = seq(-0.1, 1.1, by=0.1)
+  )
+  dev.off()
+  
+  rm(list=loaded)
+
+}, error = function(e){ print(e) })
+
+  
 # =========================================================
 # Figure 6
 # =========================================================
@@ -162,6 +223,39 @@ tryCatch({
   dev.off()
   
 }, error = function(e){ print(e) })
+
+
+
+# =========================================================
+# Figure 7
+# =========================================================
+
+tryCatch({
+  
+  loaded = load("3_CLUSTERING/obj/3_1.rda")
+  cols=c("turquoise4", "yellow2")
+  
+  D = data.frame(rbind(df_quantile, df_ternary))
+  D$set = factor(c(rep("A", nrow(df_quantile)), rep("B", nrow(df_ternary))))
+  D$cluster = factor(D$cluster)
+  rm(list=loaded)
+  
+  plot7 = ggplot(D, aes(x=PC1, y=PC2, shape=basal, col=cluster))+
+    geom_point(size=3)+
+    xlab("PC1")+ylab("PC2")+
+    themeGENERIC()+themeX_HORIZ()+
+    facet_grid(~set, scales="free")+
+    theme(strip.background = element_rect(fill="white"), 
+          strip.text = element_text(size=20, hjust = 0),
+          legend.position="bottom", legend.direction="vertical",
+          legend.justification = "center")  
+  
+  pdf("figures/figure7.pdf", width=8, height=5)
+  try(grid.arrange(plot7))
+  dev.off()
+  
+}, error = function(e){ print(e) })
+
 
 
 

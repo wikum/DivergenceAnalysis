@@ -52,8 +52,8 @@ tryCatch({
   
   cat("Running experiment..\n")
 
-  FGAS <- findMultivariateGammaAndSupport(Mat=MatNormal, genesets = HallMarks,
-                                    gamma = seq(0.4, 0.99,0.02),beta =0.95, alpha= 0.001,method="euclidean")
+  FGAS <- findMultivariateGammaAndSupport(Mat=MatNormal[, -111], genesets = HallMarks,
+                                    gamma = seq(0.02, 0.99,0.02),beta =0.95, alpha= 0.001,method="euclidean")
 
   centermatrix <- FGAS$MultiSetSupport$Centermatrix_list
   radius <- FGAS$MultiSetSupport$Radius_list

@@ -1,6 +1,6 @@
 # DivergenceAnalysis
 
-Required packages: devtools, tidyr, ClusterR, kernlab, plyr, divergence, knitr, ggplot2, gridExtra, grid, cowplot, RColorBrewer, ggrepel, superheat
+Required packages: devtools, tidyr, ClusterR, kernlab, plyr, knitr, ggplot2, grid, gridExtra, cowplot, RColorBrewer, ggrepel, superheat
 
 Instructions:
 
@@ -11,8 +11,4 @@ Instructions:
 3. Set the DATA_DIR variable in vars.R to the DATA folder containing the data downloaded in step 1
 
 4. Run run_all.R to run experiments and create figures
-
-
-
-
 

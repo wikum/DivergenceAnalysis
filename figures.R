@@ -13,6 +13,9 @@ library(superheat)
 source("src/util.R")
 source("src/plotutil.R")
 
+if(! dir.exists("figures"))
+  dir.create("figures")
+
 # =========================================================
 #  Figure 2
 # =========================================================

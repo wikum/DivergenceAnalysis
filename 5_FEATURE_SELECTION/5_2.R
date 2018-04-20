@@ -21,15 +21,13 @@ tryCatch({
   # omit the "" tissue type (i.e. two samples with blank tissue types)
   tissues = tissues[nchar(tissues) > 0]
   
-  if(FALSE){
-    if(! all(is.finite(Mat))){
+  if(! all(is.finite(Mat))){
       cat("Removing rows with missing values..\n")
       Mat = Mat[-which(apply(Mat, 1, function(x) ! all(is.finite(x)))), ]
-    }
-    
-    MatP = computeQuantileMatrix(Mat)
   }
-  
+    
+  MatP = computeQuantileMatrix(Mat)
+
   sel = which(Pheno$tissue_type %in% tissues)
   
   MatP = MatP[, sel]

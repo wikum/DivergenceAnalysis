@@ -191,6 +191,28 @@ tryCatch({
 
   
 # =========================================================
+# Figure 5
+# =========================================================
+
+tryCatch({
+  
+  loaded = load("6_HALLMARKS/obj/6_3.rda")
+  # code for plotting decision tree
+  
+  pdf("figures/figure5.pdf")
+  tryCatch({
+    par(mfrow=c(1,1))
+    prp(trainDT,extra=1, type=1,box.palette=c("pink", "palegreen3"),yesno = TRUE,
+        tweak = 0.8,border.col=1)
+  }, error = function(e){ print(e) })
+  dev.off()  
+  
+  rm(list=loaded)
+  
+}, error = function(e){ print(e) })
+
+
+# =========================================================
 # Figure 6
 # =========================================================
 

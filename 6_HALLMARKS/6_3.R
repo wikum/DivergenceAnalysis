@@ -14,8 +14,6 @@ tryCatch({
   
   source("../vars.R") # load DATA_DIR
   
-  DATA_DIR = "/Volumes/WORK/MechPred/DATA"
-  
   HallMarks <- data.matrix(read.csv(sprintf("%s/GENESETS/HALLMARKS.txt", DATA_DIR), 
                                     head=TRUE, sep=" ",na.strings="NA",stringsAsFactors = FALSE))
   

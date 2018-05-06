@@ -1,6 +1,6 @@
 # DivergenceAnalysis
 
-Required packages: devtools, tidyr, ClusterR, kernlab, plyr, knitr, ggplot2, grid, gridExtra, cowplot, RColorBrewer, ggrepel, superheat
+Required packages: devtools, tidyr, ClusterR, kernlab, plyr, knitr, ggplot2, grid, gridExtra, cowplot, RColorBrewer, ggrepel, superheat, rpart.plot
 
 Instructions:
 
